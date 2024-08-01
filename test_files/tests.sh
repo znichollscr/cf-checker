@@ -6,17 +6,18 @@
 outdir=tests_output.$$
 mkdir $outdir
 
-std_name_table=http://cfconventions.org/Data/cf-standard-names/current/src/cf-standard-name-table.xml
-area_table=http://cfconventions.org/Data/area-type-table/current/src/area-type-table.xml
+std_name_table=https://cfconventions.org/Data/cf-standard-names/79/src/cf-standard-name-table.xml
+area_table=http://cfconventions.org/Data/area-type-table/10/src/area-type-table.xml
 
-cfchecker="cfchecks"
+
+cfchecker="/Users/znicholls/mambaforge/envs/cf-checker-tests/bin/cfchecks"
 
 failed=0
 
 echo "Unzipping input netcdf files..."
 gzip -d *.gz
 
-cache_opts="-x --cache_dir /home/ros/temp/cfcache-files-py3"
+cache_opts="-x --cache_dir ./cfcache-files-py3"
 
 for file in `ls *.nc`
 do
@@ -37,7 +38,7 @@ do
     $cfchecker $cache_opts -s $std_name_table -v 1.0 $file > $outdir/$file.out 2>&1
   else
     # Run checker using the CF version specified in the conventions attribute of the file
-    $cfchecker $cache_opts -s $std_name_table -v auto $file > $outdir/$file.out 2>&1
+    $cfchecker $cache_opts -s $std_name_table -a $area_table -v auto $file > $outdir/$file.out 2>&1
   fi
 
   # Check the output against what is expected
@@ -48,8 +49,10 @@ do
     echo $file: Success
     rm $outdir/$file.out
   else
+    diff $outdir/$file.out $result
     echo $file: Failed
     failed=`expr $failed + 1`
+    exit 1
   fi
 done
 
