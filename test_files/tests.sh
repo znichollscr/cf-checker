@@ -10,13 +10,14 @@ std_name_table=https://cfconventions.org/Data/cf-standard-names/79/src/cf-standa
 area_table=http://cfconventions.org/Data/area-type-table/10/src/area-type-table.xml
 
 
-cfchecker="/Users/znicholls/mambaforge/envs/cf-checker-tests/bin/cfchecks"
+cfchecker=$(which cfchecks)
 
 failed=0
 
 echo "Unzipping input netcdf files..."
 gzip -d *.gz
 
+mkdir -p cfcache-files-py3
 cache_opts="-x --cache_dir ./cfcache-files-py3"
 
 for file in `ls *.nc`
