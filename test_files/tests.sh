@@ -6,6 +6,8 @@
 outdir=tests_output.$$
 mkdir $outdir
 
+# Pin the tables, as the tests fail if they differ.
+# This can be unpinned in future MRs updating the tests.
 std_name_table=https://cfconventions.org/Data/cf-standard-names/79/src/cf-standard-name-table.xml
 area_table=https://cfconventions.org/Data/area-type-table/10/src/area-type-table.xml
 
