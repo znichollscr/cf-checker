@@ -7,7 +7,7 @@ outdir=tests_output.$$
 mkdir $outdir
 
 std_name_table=https://cfconventions.org/Data/cf-standard-names/79/src/cf-standard-name-table.xml
-area_table=http://cfconventions.org/Data/area-type-table/10/src/area-type-table.xml
+area_table=https://cfconventions.org/Data/area-type-table/10/src/area-type-table.xml
 
 
 cfchecker=$(which cfchecks)
@@ -50,10 +50,8 @@ do
     echo $file: Success
     rm $outdir/$file.out
   else
-    diff $outdir/$file.out $result
     echo $file: Failed
     failed=`expr $failed + 1`
-    exit 1
   fi
 done
 
